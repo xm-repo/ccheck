@@ -9,5 +9,6 @@
     <string name="CheckEdit1Hint">Another URL to check</string>
     <string name="button_check">Check</string>
     <string name="button_remove">Remove</string>
+    <string name="button_fragilecheck">Test</string>
 
 </resources>
