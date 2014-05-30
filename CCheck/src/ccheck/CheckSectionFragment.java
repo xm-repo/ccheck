@@ -6,9 +6,6 @@ import java.util.List;
 import org.ccheck.R;
 
 import android.app.Activity;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -23,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import ccheck.utils.WiFiTester;
 
 public class CheckSectionFragment extends Fragment {
 	
@@ -59,6 +57,7 @@ public class CheckSectionFragment extends Fragment {
 		final EditText editText = (EditText) rootView.findViewById(R.id.edit_newurl);			
 		final Button checkButton = (Button) rootView.findViewById(R.id.button_checkall);
 		final Button removeButton = (Button) rootView.findViewById(R.id.button_remove);
+		final Button fragileCheckButton = (Button) rootView.findViewById(R.id.button_fragilecheck);
 		
 		final List<String> urls = new ArrayList<String>();
 		
@@ -117,21 +116,22 @@ public class CheckSectionFragment extends Fragment {
         checkButton.setOnClickListener(new View.OnClickListener() {				
 			@Override
 			public void onClick(View v) {	
-				
-				boolean isWifiUp = true;		    
-
-			    ConnectivityManager connectivityManager = (ConnectivityManager) rootView.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-			    NetworkInfo[] networkInfo = connectivityManager.getAllNetworkInfo();
-			    
-			    for(NetworkInfo ni : networkInfo) {
-			    	
-			        if(ni.getTypeName().equalsIgnoreCase("WIFI") && ni.isConnected()) {
-			            isWifiUp = true;
-			            break;
-			        }				        
+											    
+			    if(!WiFiTester.isWiFiUp(rootView.getContext())) {
+			    	Toast.makeText(rootView.getContext(), "We need WiFi!", Toast.LENGTH_SHORT).show();
+			    	return;
 			    }
-			    
-			    if(!isWifiUp) {
+				
+				CheckAllAsyncTask checkAllAsyncTask = new CheckAllAsyncTask(rootView);
+				checkAllAsyncTask.execute();									
+			}
+		});
+        
+        fragileCheckButton.setOnClickListener(new View.OnClickListener() {				
+			@Override
+			public void onClick(View v) {	
+				
+				if(!WiFiTester.isWiFiUp(rootView.getContext())) {
 			    	Toast.makeText(rootView.getContext(), "We need WiFi!", Toast.LENGTH_SHORT).show();
 			    	return;
 			    }
