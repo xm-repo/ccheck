@@ -1,0 +1,86 @@
+
+!Что делать при удалении ссылки?
+
+
+https://github.com/moxie0/AndroidPinning
+
+http://www.cacert.org/
+https://cert-test.sandbox.google.com/
+http://www.ietf.org/rfc/rfc5280.txt
+
+//Put up the Yes/No message box
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder
+    	.setTitle("Erase hard drive")
+    	.setMessage("Are you sure?")
+    	.setIcon(android.R.drawable.ic_dialog_alert)
+    	.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	    public void onClick(DialogInterface dialog, int which) {			      	
+    	    	//Yes button clicked, do something
+    	    	Toast.makeText(YesNoSampleActivity.this, "Yes button pressed", 
+                               Toast.LENGTH_SHORT).show();
+    	    }
+    	})
+    	.setNegativeButton("No", null)						//Do nothing on no
+    	.show();
+        
+    	    	
+    	// Continue code after the Yes/No dialog
+    	// ....
+
+//for google.com                 
+    		String[] pins1 = new String[] { "40c5401d6f8cbaf08b00edefb1ee87d005b3b9cd" };
+			URL url1 = new URL("https://www.google.com");
+			
+			//Subject: OU=Go Daddy Class 2 Certification Authority, O="The Go Daddy Group, Inc.", C=US
+			//for vk.com
+			//String[] pins2 = new String[] { "eee59f1e2aa544c3cb2543a69a5bd46a25bcbb8e" };
+			//URL url2 = new URL("https://www.vk.com");
+			
+			//Subject: OU=www.verisign.com/CPS Incorp.by Ref. LIABILITY LTD.(c)97 VeriSign, OU=VeriSign International Server CA - Class 3, OU="VeriSign, Inc.", O=VeriSign Trust Network
+			//for facebook.com               
+			//String[] pins3 = new String[] { "0acfeb4b07e703a01f4cef28ee7256f751759155" };
+			//URL url3 = new URL("https://www.facebook.com");
+			
+			//[CN=VeriSign Class 3 Extended Validation SSL CA, OU=Terms of use at https://www.verisign.com/rpa (c)06, OU=VeriSign Trust Network, O="VeriSign, Inc.", C=US]
+			//String[] pins4 = new String[] { "ae4ad7f9b380e1129332bb52de5a090c521b33d0" };
+			//URL url4 = new URL("https://www.twitter.com");
+			
+			//verisign
+			//String[] pins5 = new String[] { "b181081a19a4c0941ffae89528c124c99b34acc7" };
+			
+Pinning
+
+An app can further protect itself from fraudulently issued certificates by a technique known as pinning. This is basically using the example provided in the unknown CA case above to restrict an app's trusted CAs to a small set known to be used by the app's servers. This prevents the compromise of one of the other 100+ CAs in the system from resulting in a breach of the apps secure channel.
+Client Certificates
+
+http://developer.android.com/training/articles/security-ssl.html#ClientCert
+
+http://tersesystems.com/2014/03/23/fixing-hostname-verification/
+
+http://unmitigatedrisk.com/?p=381
+
+http://umakantpatil.com/posts/android-emulator-localhost-and-host-files-on-windows/
+
+http://pro-ldap.ru/tr/zytrax/tech/ssl.html
+
+
+create new self-signed cert
+C:\Program Files"\Java\jre8\bin\keytool -genkeypair -dname "cn=example.com, ou=example, o=Sun, c=US" -alias business -keypass 123456 -keystore E:\keystore -storepass 123456 -validity 180 -ext SAN=DNS:www.example.com
+
+
+change hosts on android emulator
+
+tools:
+emulator -avd YourAvdNameGoesHere -partition-size 128
+platform-tools:
+adb remount
+adb pull /system/etc/hosts c:\hosts
+adb push c:\hosts /system/etc
+
+for create
+java-home/bin/keytool -genkey -alias server-alias -keyalg RSA -keypass 123456 -storepass 123456 -keystore E:\keystore
+for export
+java-home/bin/keytool -export -alias server-alias -storepass 123456 -file server.cer -keystore E:\keystore
+
+emulator -avd имя_эмулятора -dns-server наш_днс_сервер
