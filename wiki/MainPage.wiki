@@ -11,6 +11,8 @@ http://blog.opensecurityresearch.com/2012/05/mallory-mitm-fix-ssl-decryption.htm
 
 http://crypto.stanford.edu/ssl-mitm/
 
+http://mitmproxy.org/doc/mitmproxy.html
+
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
   * Headings, paragraphs, and lists
