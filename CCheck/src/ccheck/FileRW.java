@@ -1,14 +1,13 @@
 package ccheck;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.StreamCorruptedException;
 import java.util.HashMap;
 
 import android.content.Context;
@@ -32,7 +31,8 @@ public class FileRW {
         return this.pins;
     }
     
-    public void load() { 
+    @SuppressWarnings("unchecked")
+	public void load() { 
     	
 		pins.clear();
 		
@@ -44,41 +44,37 @@ public class FileRW {
     	if(file.exists()) {
     		try {
     			inputStream = context.openFileInput(fileName);
-    		} catch (FileNotFoundException e) {			
-    			//e.printStackTrace();
+    		} catch (FileNotFoundException fnfException) {			
+    			//fnfException.printStackTrace();
     			return;
     		} 
     	} else {
     		try {
     			inputStream = context.getAssets().open(fileName);
-    		} catch (IOException e) {				
-				//e.printStackTrace();
+    		} catch (IOException ioException) {				
+				//ioException.printStackTrace();
     			return;
 			}
     	}
     	
-    	BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-		
+        ObjectInputStream objectInputStream;
+        
 		try {
-			String url, pin;
-			while((url = bufferedReader.readLine()) != null) {
-				
-				if(url.trim().isEmpty() || url.indexOf('#') == 0) {
-					continue;
-				}
-				
-				pin = bufferedReader.readLine();  				
-				pins.put(url, pin);    								
-			}
-		} catch (IOException e) {
-			//e.printStackTrace();
+			
+			objectInputStream = new ObjectInputStream(inputStream);
+			pins = (HashMap<String, String>) objectInputStream.readObject();
+			
+			objectInputStream.close();
+			inputStream.close();
+			
+		} catch (StreamCorruptedException scException) {
+			//scException.printStackTrace();
 			return;
-		}
-		
-		try {
-			bufferedReader.close();
-		} catch (IOException e) {
-			//e.printStackTrace();
+		} catch (IOException ioException1) {
+			//ioException1.printStackTrace();
+			return;
+		} catch (ClassNotFoundException cnfException) {
+			//cnfException.printStackTrace();
 			return;
 		}
 		
@@ -117,31 +113,20 @@ public class FileRW {
 			//e.printStackTrace();
 			return;
 		}
-    	
-    	BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));    	
-    	
-    	for(String url : pins.keySet()) {
-    		
-    		try {
-    			
-    			bufferedWriter.write(url);
-    			bufferedWriter.newLine();
-    			
-    			bufferedWriter.write(pins.get(url));
-    			bufferedWriter.newLine();
-			} catch (IOException e) {
-				//e.printStackTrace();
-				return;
-			}
-    		
-    	}
-    	
-    	try {
-    		bufferedWriter.close();
-		} catch (IOException e) {			
-			//e.printStackTrace();
+        
+		try {
+			
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+			objectOutputStream.writeObject(pins);
+			
+	        objectOutputStream.close();
+	        outputStream.close(); 
+	        
+		} catch (IOException ioException) {
+			//ioException.printStackTrace();
 			return;
-		}   	
+		}
+        
     	
     }    
 
