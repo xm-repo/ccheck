@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CCheck</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_check">Check</string>
+    <string name="title_section_settings">Settings</string>
+    <string name="title_section_check">Check</string>
+    <string name="CheckEdit1Hint">Another URL to check</string>
+    <string name="button_check">Check</string>
+    <string name="button_remove">Remove</string>
+    <string name="button_fragilecheck">Test</string>
+
+</resources>
