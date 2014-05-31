@@ -17,6 +17,8 @@ http://www.pentesterconfessions.blogspot.nl/2012/04/mallory-mitm-proxy-as-wirele
 
 http://it.toolbox.com/wiki/index.php/Man-in-the-Middle_Attack
 
+http://courses.ece.ubc.ca/412/term_project/reports/2009/SSL_warning_effectivness.pdf
+
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
   * Headings, paragraphs, and lists
