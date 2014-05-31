@@ -15,6 +15,8 @@ http://mitmproxy.org/doc/mitmproxy.html
 
 http://www.pentesterconfessions.blogspot.nl/2012/04/mallory-mitm-proxy-as-wireless-access.html
 
+http://it.toolbox.com/wiki/index.php/Man-in-the-Middle_Attack
+
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
   * Headings, paragraphs, and lists
