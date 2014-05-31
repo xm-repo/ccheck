@@ -1,13 +1,21 @@
 package ccheck;
 
+import java.io.IOException;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
+
 import org.ccheck.R;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ListView;
+import ccheck.ssl.pinning.util.PinningHelper;
 
-public class CheckAsyncTask extends AsyncTask<String, String, Void> {
+public class CheckAsyncTask extends AsyncTask<Void, String, Void> {
 
     final View rootView;   
 	
@@ -16,67 +24,72 @@ public class CheckAsyncTask extends AsyncTask<String, String, Void> {
     }
 	
 	@Override
-	protected Void doInBackground(String... arg) {
+	protected Void doInBackground(Void... args) {
 		
-		/*final Context context = rootView.getContext().getApplicationContext();
+		final Context context = rootView.getContext().getApplicationContext();
+		
 		FileRW filerw = new FileRW(context);
-		//filerw.read();	
 		
-		String host = arg[0];
-		//ArrayList<String> tmppins = filerw.getPins();		
-		//String [] pins = tmppins.toArray(new String[tmppins.size()]);	
-		String progress;
-		
-		try {
+		for(String strurl : filerw.getPins().keySet()) {
 
-			URL url = new URL(host);
-			HttpsURLConnection connection = PinningHelper.getPinnedHttpsURLConnection(context, pins, url);
+			try {
 
-			InputStream is = connection.getInputStream();
-			
-			X509Certificate [] certs = (X509Certificate[]) connection.getServerCertificates();
-			if(certs == null) {
-				return null;
+				URL url = new URL(strurl);
+				HttpsURLConnection httpsURLConnection = PinningHelper.getPinnedHttpsURLConnection(context, new String[] { filerw.getPins().get(strurl) }, url);
+				httpsURLConnection.setConnectTimeout(4000);
+				httpsURLConnection.connect();
+				
+				//InputStream inputStream = httpsURLConnectionection.getInputStream();
+				//inputStream.close();
+				//httpsURLConnectionection.disconnect();
+				
+				publishProgress(strurl + "  (Ok)");
+
+			} catch (IOException ioException) {
+				
+				publishProgress(strurl + "  (Bad: " + ioException.getMessage() + ")");
 			}
-			progress = certs[certs.length - 1].toString();
-			
-			is.close();
-			connection.disconnect();
-
-		} catch (Exception e) {
-			progress = " ";
-		}
-
-		publishProgress(progress);*/
+		}  		
 
 		return null;
 	}
-	
+    
+    @SuppressWarnings("unchecked")
 	@Override
-	protected void onPreExecute() {
-		
-		final Button checkButton = (Button)rootView.findViewById(R.id.button_ckeck);
-		final Button removeButton = (Button)rootView.findViewById(R.id.button_remove);
-		
-		checkButton.setEnabled(false);
-		removeButton.setEnabled(false);
-	}
-	
-	@Override
-	protected void onProgressUpdate(String... values) {
-		
-		final TextView textView = (TextView) rootView.findViewById(R.id.text_cert);
-		textView.setText(values[0]);		
-	}
-	
-	@Override
-	protected void onPostExecute(Void result) {
-		
-		final Button checkButton = (Button)rootView.findViewById(R.id.button_ckeck);
-		final Button removeButton = (Button)rootView.findViewById(R.id.button_remove);
-		
-		checkButton.setEnabled(true);
-		removeButton.setEnabled(true);
-	}
+    protected void onPreExecute() {
+    	
+    	final Button checkButton = (Button) rootView.findViewById(R.id.button_checkall);
+    	final Button removeButton = (Button) rootView.findViewById(R.id.button_remove);
+    	
+    	checkButton.setEnabled(false);
+    	removeButton.setEnabled(false);
+    	
+    	final ListView lv = (ListView) rootView.findViewById(R.id.CHECK_LV);
+    	final ArrayAdapter<String> lvAdapter = (ArrayAdapter<String>) lv.getAdapter();
+    	
+    	lvAdapter.clear();
+    	lvAdapter.notifyDataSetChanged(); 
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Override    
+    protected void onProgressUpdate(String... progress) {    	
+    	
+    	final ListView lv = (ListView) rootView.findViewById(R.id.CHECK_LV);
+    	final ArrayAdapter<String> lvAdapter = (ArrayAdapter<String>) lv.getAdapter();    	
+    	
+    	lvAdapter.addAll(progress);
+    	lvAdapter.notifyDataSetChanged();    	
+    }
+
+    @Override 
+    protected void onPostExecute(Void result) {    	
+    	
+    	final Button checkButton = (Button) rootView.findViewById(R.id.button_checkall);
+    	final Button removeButton = (Button) rootView.findViewById(R.id.button_remove);
+    	
+    	checkButton.setEnabled(true);
+    	removeButton.setEnabled(true);
+    }
 
 }

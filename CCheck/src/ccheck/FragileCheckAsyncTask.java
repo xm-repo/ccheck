@@ -15,11 +15,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import ccheck.ssl.pinning.util.PinningHelper;
 
-public class CheckAllAsyncTask extends AsyncTask<Void, String, Void> {
+public class FragileCheckAsyncTask extends AsyncTask<Void, String, Void> {
 
     final View rootView;   
 	
-	public CheckAllAsyncTask(View view) {
+	public FragileCheckAsyncTask(View view) {
 		this.rootView = view;		
     }
 	
@@ -35,13 +35,10 @@ public class CheckAllAsyncTask extends AsyncTask<Void, String, Void> {
 			try {
 
 				URL url = new URL(strurl);
-				HttpsURLConnection httpsURLConnection = PinningHelper.getPinnedHttpsURLConnection(context, new String[] { filerw.getPins().get(strurl) }, url);
+				
+				HttpsURLConnection httpsURLConnection = PinningHelper.getFragileHttpsURLConnection(url);
 				httpsURLConnection.setConnectTimeout(4000);
 				httpsURLConnection.connect();
-				
-				//InputStream inputStream = httpsURLConnectionection.getInputStream();
-				//inputStream.close();
-				//httpsURLConnectionection.disconnect();
 				
 				publishProgress(strurl + "  (Ok)");
 

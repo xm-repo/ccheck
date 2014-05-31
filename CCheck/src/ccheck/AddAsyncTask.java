@@ -80,6 +80,7 @@ public class AddAsyncTask extends AsyncTask<String, String, Void> {
 				return null;
 			}
 						
+			//!!
 			X509Certificate rootcert = certs[certs.length - 1];
 			
 			final MessageDigest digest = MessageDigest.getInstance("SHA1");	            

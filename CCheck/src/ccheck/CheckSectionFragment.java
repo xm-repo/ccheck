@@ -124,7 +124,7 @@ public class CheckSectionFragment extends Fragment {
 			    	return;
 			    }
 				
-				CheckAllAsyncTask checkAllAsyncTask = new CheckAllAsyncTask(rootView);
+				CheckAsyncTask checkAllAsyncTask = new CheckAsyncTask(rootView);
 				checkAllAsyncTask.execute();									
 			}
 		});
@@ -138,8 +138,8 @@ public class CheckSectionFragment extends Fragment {
 			    	return;
 			    }
 				
-				CheckAllAsyncTask checkAllAsyncTask = new CheckAllAsyncTask(rootView);
-				checkAllAsyncTask.execute();									
+				FragileCheckAsyncTask fragileCheckAsyncTask = new FragileCheckAsyncTask(rootView);
+				fragileCheckAsyncTask.execute();									
 			}
 		});
 		

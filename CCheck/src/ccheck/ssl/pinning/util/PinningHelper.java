@@ -111,7 +111,7 @@ public class PinningHelper {
 		}		
 	}
     
-    public static HttpsURLConnection getFragileHttpsURLConnection(Context context, URL url) 
+    public static HttpsURLConnection getFragileHttpsURLConnection(URL url) 
     		throws IOException {
 		
         try {

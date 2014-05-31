@@ -36,7 +36,7 @@ public class SettingsSectionFragment extends Fragment {
 				@Override
 				public void onClick(View v) {
 					
-					CheckAsyncTask checkAsyncTask = new CheckAsyncTask(rootView);
+					CAsyncTask checkAsyncTask = new CAsyncTask(rootView);
 					//ch.execute("https://www.facebook.com");
 					checkAsyncTask.execute(textView2.getText().toString());
 				}
