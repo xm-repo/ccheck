@@ -1,16 +1,11 @@
-// This file is part of The Grinder software distribution. Refer to
-// the file LICENSE which is part of The Grinder distribution for
-// licensing details. The Grinder distribution is available on the
-// Internet at http://grinder.sourceforge.net/
 
 package mitm;
 
 
-/**
- * ConnectionDetails represents the endpoints of a TCP connection,
- * and whether SSL is used.
- *
+/*
+ * ConnectionDetails represents the endpoints of a TCP connection, and whether SSL is used.
  */
+
 public class ConnectionDetails {
 
     private final int m_hashCode;
@@ -21,82 +16,68 @@ public class ConnectionDetails {
     private int m_remotePort;
     private boolean m_isSecure;
 
-    /**
+    /*
      * Creates a new ConnectionDetails instance.
      */
-    public ConnectionDetails(String localHost, int localPort,
-			     String remoteHost, int remotePort,
-			     boolean isSecure)
-    {
-	m_localHost = localHost.toLowerCase();
-	m_localPort = localPort;
-	m_remoteHost = remoteHost.toLowerCase();
-	m_remotePort = remotePort;
-	m_isSecure = isSecure;
+    
+    public ConnectionDetails(String localHost, int localPort, String remoteHost, int remotePort, boolean isSecure) {
 
-	m_hashCode =
-	    m_localHost.hashCode() ^
-	    m_remoteHost.hashCode() ^
-	    m_localPort ^
-	    m_remotePort ^
-	    (m_isSecure ? 0x55555555 : 0);
-    }
+		m_localHost = localHost.toLowerCase();
+		m_localPort = localPort;
+		m_remoteHost = remoteHost.toLowerCase();
+		m_remotePort = remotePort;
+		m_isSecure = isSecure;
+
+		m_hashCode = m_localHost.hashCode() ^ m_remoteHost.hashCode() ^ m_localPort ^ m_remotePort ^ (m_isSecure ? 0x55555555 : 0);
+	}
 
     public String getDescription() {
-	return
-	    m_localHost + ":" + m_localPort + "->" +
-	    m_remoteHost + ":" + m_remotePort;
+    	
+	    return m_localHost + ":" + m_localPort + "->" + m_remoteHost + ":" + m_remotePort;
     }
 
     public boolean isSecure() {
-	return m_isSecure;
+	    return m_isSecure;
     }
 
     public String getRemoteHost() {
-	return m_remoteHost;
+	    return m_remoteHost;
     }
 
     public String getLocalHost() {
-	return m_localHost;
+	    return m_localHost;
     }
 
     public int getRemotePort() {
-	return m_remotePort;
+	    return m_remotePort;
     }
 
     public int getLocalPort() {
-	return m_localPort;
+	    return m_localPort;
     }
+    
+	public boolean equals(Object other) {
+		
+		if(other == this) {
+			return true;
+		}
 
-    /**
-     * Value based equality.
-     *
-     * @param other an <code>Object</code> value
-     * @return <code>true</code> => <code>other</code> is equal to this object.
-     *
-     */
-    public boolean equals(Object other) {
-	if (other == this) {
-	    return true;
+		if(!(other instanceof ConnectionDetails)) {
+			return false;
+		}
+
+		final ConnectionDetails otherConnectionDetails = (ConnectionDetails) other;
+
+		return hashCode() == otherConnectionDetails.hashCode()
+				&& getLocalPort() == otherConnectionDetails.getLocalPort()
+				&& getRemotePort() == otherConnectionDetails.getRemotePort()
+				&& isSecure() == otherConnectionDetails.isSecure()
+				&& getLocalHost().equals(otherConnectionDetails.getLocalHost())
+				&& getRemoteHost().equals(otherConnectionDetails.getRemoteHost());
 	}
-	
-	if (!(other instanceof ConnectionDetails)) {
-	    return false;
+
+	public final int hashCode() {
+		return m_hashCode;
 	}
-
-	final ConnectionDetails otherConnectionDetails = (ConnectionDetails)other;
-
-	return
-	    hashCode() == otherConnectionDetails.hashCode() &&
-	    getLocalPort() == otherConnectionDetails.getLocalPort() &&
-	    getRemotePort() == otherConnectionDetails.getRemotePort() &&
-	    isSecure() == otherConnectionDetails.isSecure() &&
-	    getLocalHost().equals(otherConnectionDetails.getLocalHost()) &&
-	    getRemoteHost().equals(otherConnectionDetails.getRemoteHost());
-    }
-
-    public final int hashCode() {
-	return m_hashCode;
-    }
 
 }
