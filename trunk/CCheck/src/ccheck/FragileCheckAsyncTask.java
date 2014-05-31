@@ -37,8 +37,10 @@ public class FragileCheckAsyncTask extends AsyncTask<Void, String, Void> {
 				URL url = new URL(strurl);
 				
 				HttpsURLConnection httpsURLConnection = PinningHelper.getFragileHttpsURLConnection(url);
-				httpsURLConnection.setConnectTimeout(4000);
-				httpsURLConnection.connect();
+				httpsURLConnection.setConnectTimeout(40000);
+				httpsURLConnection.getInputStream();
+				
+				//httpsURLConnection.connect();
 				
 				publishProgress(strurl + "  (Ok)");
 
