@@ -37,13 +37,16 @@ public class CopyStreamRunnable implements Runnable {
 				}
 
 				if(bytesRead == 0) {
+					
 					idle++;
 				} else {
+					
 					m_out.write(buffer, 0, bytesRead);
 					idle = 0;
 				}
 
 				if(idle > 0) {
+					
 					Thread.sleep(Math.max(idle * 200, 2000));
 				}
 			}
