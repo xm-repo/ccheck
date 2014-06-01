@@ -46,11 +46,11 @@ public class Main {
 			URL url = null;
 			try {
 				
-				url = new URL(strurl);
+				url = new URL("https://127.0.0.1:8001");
 				
-				if(!url.getProtocol().equals("https")) {	
-					return;
-				}
+				//if(!url.getProtocol().equals("https")) {	
+				//	return;
+				//}
 				
 			} catch (MalformedURLException e) {						
 				return;
@@ -64,6 +64,8 @@ public class Main {
 				
 				httpsURLConnection.setConnectTimeout(4000);
 				httpsURLConnection.connect();
+				
+				//httpsURLConnection.getInputStream();
 				
 				X509Certificate [] certs = (X509Certificate[]) httpsURLConnection.getServerCertificates();
 				if(certs == null) {
