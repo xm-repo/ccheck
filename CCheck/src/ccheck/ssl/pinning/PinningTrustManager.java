@@ -89,7 +89,7 @@ public class PinningTrustManager implements X509TrustManager {
 	private void checkSystemTrust(X509Certificate[] chain, String authType)	throws CertificateException {
 		
 		for(TrustManager systemTrustManager : systemTrustManagers) {
-			((X509TrustManager)systemTrustManager).checkServerTrusted(chain, authType);
+			((X509TrustManager) systemTrustManager).checkServerTrusted(chain, authType);
 		}		
 	}
 
