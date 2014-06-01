@@ -37,9 +37,10 @@ public class CheckAsyncTask extends AsyncTask<Void, String, Void> {
 				URL url = new URL(strurl);
 				HttpsURLConnection httpsURLConnection = PinningHelper.getPinnedHttpsURLConnection(context, new String[] { filerw.getPins().get(strurl) }, url);
 				httpsURLConnection.setConnectTimeout(4000);
-				httpsURLConnection.connect();
+				//httpsURLConnection.connect();
 				
-				//InputStream inputStream = httpsURLConnectionection.getInputStream();
+				//InputStream inputStream = 
+				httpsURLConnection.getInputStream();
 				//inputStream.close();
 				//httpsURLConnectionection.disconnect();
 				
