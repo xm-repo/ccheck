@@ -52,8 +52,8 @@ public class SignCert {
 
 		Principal issuer = caCertificate.getSubjectDN();
 
-		//!!!!
-		AlgorithmID alg = AlgorithmID.sha256WithRSAEncryption;
+		//AlgorithmID alg = AlgorithmID.sha256WithRSAEncryption;
+		AlgorithmID alg = AlgorithmID.dsaWithSHA;
 
 		PublicKey subjectPubKey = caCertificate.getPublicKey();
 
